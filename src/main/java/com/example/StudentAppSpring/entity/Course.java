@@ -24,7 +24,7 @@ public class Course {
     private int courseRoom;
 
     @OneToMany(mappedBy = "favoriteCourse",
-            fetch = FetchType.LAZY,
+            fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Student> students = new ArrayList<>();
 

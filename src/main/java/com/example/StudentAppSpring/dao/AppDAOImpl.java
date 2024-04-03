@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Scanner;
 
 @Repository
+@Transactional
 public class AppDAOImpl implements AppDAO{
 
     Scanner scanner = new Scanner(System.in);
@@ -147,9 +148,16 @@ public class AppDAOImpl implements AppDAO{
     @Transactional
     public void insertStudent() {
 
-        Student student = new Student(firstName, lastName, favoriteCourse);
+        String firstName;
+        String lastName;
+        Course favoriteCourse;
+        String idCourseString;
+        int favoriteIDCourse;
+
+        Student student = new Student();
 
         System.out.println("Do you want to add a new student?");
+
         System.out.println("Enter first name:");
         firstName = scanner.nextLine();
 
@@ -160,19 +168,24 @@ public class AppDAOImpl implements AppDAO{
 
         // Verify if the user type from console a String and then convert to an Int
         if (scanner.hasNextLine()) {
-            String idCourseString = scanner.nextLine();
+            idCourseString = scanner.nextLine();
 
             try {
-                int idCourse = Integer.parseInt(idCourseString);
-                Course course = entityManager.find(Course.class, idCourse);
+                //Convert the String into an Int
+                favoriteIDCourse = Integer.parseInt(idCourseString);
+                favoriteCourse = entityManager.find(Course.class, favoriteIDCourse);
 
-                if (course == null) {
-                    System.out.println("Favorite idcourse " + idCourse + " does not exist.");
+                if (favoriteCourse == null) {
+                    System.out.println("Favorite idcourse " + favoriteIDCourse + " does not exist.");
 
                 } else {
-                    //student.setFavoriteCourse(course);
-                    //course.getStudents().add(student);
+
+                    student.setFirstName(firstName);
+                    student.setLastName(lastName);
+                    student.setFavoriteCourse(favoriteCourse);
+                    favoriteCourse.getStudents().add(student);
                     entityManager.persist(student);
+
                 }
 
             } catch (NumberFormatException ex) {
@@ -186,21 +199,32 @@ public class AppDAOImpl implements AppDAO{
     @Transactional
     public void updateStudent() {
 
-        Student student = new Student(firstName, lastName);
+        int idStudent;
+        String firstName;
+        String lastName;
+        Course favoriteCourse;
+        String idStudentString;
+        String idCourseString;
+        int favoriteIDCourse;
+
+        Student student = new Student();
 
         System.out.println("Enter the idstudent which you need to update:");
 
         // Verify if the user type from console a String and then convert to an Int
         if (scanner.hasNextLine()) {
-            String idStudentString = scanner.nextLine();
+            idStudentString = scanner.nextLine();
 
             try {
+                //Convert the String into an Int
                 idStudent = Integer.parseInt(idStudentString);
+                student = entityManager.find(Student.class, idStudent);
 
-                if (false /*return entityManager.find(Student.class, idStudent) == null*/) {
+                if (student == null) {
                     System.out.println("Student with idstudent " + idStudent + " does not exist.");
 
                 } else {
+
                     System.out.println("Enter the new first name: ");
                     firstName = scanner.nextLine();
 
@@ -211,17 +235,21 @@ public class AppDAOImpl implements AppDAO{
 
                     // Verify if the user type from console a String and then convert to an Int
                     if (scanner.hasNextLine()) {
-                        String idCourseString = scanner.nextLine();
+                        idCourseString = scanner.nextLine();
 
                         try {
+                            //Convert the String into an Int
+                            favoriteIDCourse = Integer.parseInt(idCourseString);
+                            favoriteCourse = entityManager.find(Course.class, favoriteIDCourse);
 
-                            //Convert the input to an Int
-                            //favoriteCourse = Integer.parseInt(idCourseString);
-
-                            if (false) {
-                                System.out.println("Favorite idcourse " + favoriteCourse + " does not exist.");
+                            if (favoriteCourse == null) {
+                                System.out.println("Favorite idcourse " + favoriteIDCourse + " does not exist.");
 
                             } else {
+                                student.setFirstName(firstName);
+                                student.setLastName(lastName);
+                                student.setFavoriteCourse(favoriteCourse);
+                                favoriteCourse.getStudents().add(student);
                                 entityManager.merge(student);
                             }
 
@@ -234,6 +262,7 @@ public class AppDAOImpl implements AppDAO{
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input: " + ex.getMessage());
             }
+
         }
     }
 
