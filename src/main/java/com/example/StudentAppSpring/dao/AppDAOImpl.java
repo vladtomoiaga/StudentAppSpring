@@ -270,17 +270,23 @@ public class AppDAOImpl implements AppDAO{
     @Transactional
     public void deleteStudent() {
 
+        int idStudent;
+        String idStudentString;
+
+        Student student = new Student();
+
         System.out.println("Enter the idstudent which you need to delete:");
 
         // Verify if the user type from console a String and then convert to an Int
         if (scanner.hasNextLine()) {
-            String idStudentString = scanner.nextLine();
+            idStudentString = scanner.nextLine();
 
             try {
                 // Convert the String into an Int
                 idStudent = Integer.parseInt(idStudentString);
+                student = entityManager.find(Student.class, idStudent);
 
-                if (false) {
+                if (student == null) {
                     System.out.println("Student with idstudent " + idStudent + " does not exist.");
 
                 } else {
@@ -299,20 +305,30 @@ public class AppDAOImpl implements AppDAO{
     @Override
     public Student findStudentByID() {
 
+        int idStudent;
+        String idStudentString;
+
+        Student student = new Student();
+
         System.out.println("Enter the idstudent which you need to find:");
 
         // Verify if the user type from console a String and then convert to an Int
         if (scanner.hasNextLine()) {
-            String idStudentString = scanner.nextLine();
+            idStudentString = scanner.nextLine();
 
             try {
                 // Convert the String into an Int
                 idStudent = Integer.parseInt(idStudentString);
+                student = entityManager.find(Student.class, idStudent);
 
-                Student student = entityManager.find(Student.class, idStudent);
+                if (student == null) {
+                    System.out.println("Student with idstudent " + idStudent + " does not exist.");
+
+                } else {
+                    return entityManager.find(Student.class, idStudent);
+                }
 
                 System.out.println(student);
-                return student;
 
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input: " + ex.getMessage());
