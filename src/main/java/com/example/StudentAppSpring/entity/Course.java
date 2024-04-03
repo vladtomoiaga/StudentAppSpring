@@ -31,12 +31,6 @@ public class Course {
     public Course() {
     }
 
-    public Course(String courseName, String courseOwner, int courseRoom) {
-        this.courseName = courseName;
-        this.courseOwner = courseOwner;
-        this.courseRoom = courseRoom;
-    }
-
     public int getIdCourse() {
         return idCourse;
     }

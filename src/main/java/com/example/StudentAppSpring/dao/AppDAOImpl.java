@@ -17,10 +17,6 @@ public class AppDAOImpl implements AppDAO{
 
     private EntityManager entityManager;
 
-    int idStudent;
-    String firstName;
-    String lastName;
-    Course favoriteCourse;
     int idCourse;
     String courseName;
     String courseOwner;
@@ -246,11 +242,13 @@ public class AppDAOImpl implements AppDAO{
                                 System.out.println("Favorite idcourse " + favoriteIDCourse + " does not exist.");
 
                             } else {
+
                                 student.setFirstName(firstName);
                                 student.setLastName(lastName);
                                 student.setFavoriteCourse(favoriteCourse);
                                 favoriteCourse.getStudents().add(student);
                                 entityManager.merge(student);
+
                             }
 
                         } catch (NumberFormatException ex) {
@@ -343,6 +341,10 @@ public class AppDAOImpl implements AppDAO{
     @Override
     public Student findStudentByFirstName() {
 
+        String firstName;
+
+        Student student = new Student();
+
         System.out.println("Enter the first name which you need to find:");
         firstName = scanner.nextLine().toLowerCase();
         return entityManager.find(Student.class, firstName);
@@ -350,6 +352,10 @@ public class AppDAOImpl implements AppDAO{
 
     @Override
     public Student findStudentByLastName() {
+
+        String lastName;
+
+        Student student = new Student();
 
         System.out.println("Enter the last name which you need to find:");
         lastName = scanner.nextLine().toLowerCase();
@@ -360,11 +366,106 @@ public class AppDAOImpl implements AppDAO{
     @Transactional
     public void insertCourse() {
 
+        String courseName;
+        String courseOwner;
+        int courseRoom;
+        String courseRoomString;
+
+        Course course = new Course();
+
+        System.out.println("Do you want to add a new course?");
+
+        System.out.println("Enter the course name:");
+        courseName = scanner.nextLine();
+
+        System.out.println("Enter the course owner:");
+        courseOwner = scanner.nextLine();
+
+        System.out.println("Enter the course room:");
+
+        // Verify if the user type from console a String and then to convert to an Int
+        if (scanner.hasNextLine()) {
+            courseRoomString = scanner.nextLine();
+
+            try {
+                // Convert the String into an Int
+                courseRoom = Integer.parseInt(courseRoomString);
+
+                course.setCourseName(courseName);
+                course.setCourseOwner(courseOwner);
+                course.setCourseRoom(courseRoom);
+                entityManager.persist(course);
+
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid input: " + ex.getMessage());
+            }
+
+        }
     }
 
     @Override
     @Transactional
     public void updateCourse() {
+
+        int idCourse;
+        String courseName;
+        String courseOwner;
+        int courseRoom;
+        String idCourseString;
+        String courseRoomString;
+
+        Course course = new Course();
+
+        System.out.println("Enter the idcourse which you need to update:");
+
+        // Verify if the user type from console a String and then convert to an Int
+        if (scanner.hasNextLine()) {
+            idCourseString = scanner.nextLine();
+
+            try {
+                // Convert the String to an Int
+                idCourse = Integer.parseInt(idCourseString);
+                course = entityManager.find(Course.class, idCourse);
+
+                if (course == null) {
+                    System.out.println("Course with idcourse " + idCourse + " does not exist.");
+
+                } else {
+                    System.out.println("Enter the new course name: ");
+                    courseName = scanner.nextLine();
+
+                    System.out.println("Enter the new course owner: ");
+                    courseOwner = scanner.nextLine();
+
+                    System.out.println("Enter the new course room: ");
+
+                    // Verify if the user type from console a number
+                    if (scanner.hasNextLine()) {
+                        courseRoomString = scanner.nextLine();
+
+                        try {
+                            // Convert the String into an Int
+                            courseRoom = Integer.parseInt(courseRoomString);
+
+                            course.setCourseName(courseName);
+                            course.setCourseOwner(courseOwner);
+                            course.setCourseRoom(courseRoom);
+                            entityManager.merge(course);
+
+                        } catch (NumberFormatException ex) {
+                            System.out.println("Invalid input: " + ex.getMessage());
+                        }
+
+                    } else {
+                        System.out.println("Please enter a correct value for course room.");
+                    }
+                }
+
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid input: " + ex.getMessage());
+            }
+        }
+
 
     }
 
