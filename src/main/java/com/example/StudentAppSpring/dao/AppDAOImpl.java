@@ -288,7 +288,7 @@ public class AppDAOImpl implements AppDAO{
                     System.out.println("Student with idstudent " + idStudent + " does not exist.");
 
                 } else {
-                    entityManager.remove(idStudent);
+                    entityManager.remove(student);
                     System.out.println("Student with idstudent " + idStudent + " was deleted.");
                 }
 
@@ -323,7 +323,7 @@ public class AppDAOImpl implements AppDAO{
                     System.out.println("Student with idstudent " + idStudent + " does not exist.");
 
                 } else {
-                    return entityManager.find(Student.class, idStudent);
+                    return entityManager.find(Student.class, student);
                 }
 
                 System.out.println(student);
@@ -464,18 +464,44 @@ public class AppDAOImpl implements AppDAO{
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input: " + ex.getMessage());
             }
-        }
 
+        }
 
     }
 
     @Override
     @Transactional
     public void deleteCourse() {
+
+        int idCourse;
+        String idCourseString;
+
+        Course course = new Course();
+
         System.out.println("Enter the idcourse which you need to delete:");
-        idCourse = scanner.nextInt();
-        Course course = entityManager.find(Course.class, idCourse);
-        entityManager.remove(course);
+
+        if (scanner.hasNextLine()) {
+            idCourseString = scanner.nextLine();
+
+            try {
+                // Convert the String to an Int
+                idCourse = Integer.parseInt(idCourseString);
+                course = entityManager.find(Course.class, idCourse);
+
+                if (course == null) {
+                    System.out.println("Course with idcourse " + idCourse + " does not exist.");
+
+                } else {
+                    entityManager.remove(course);
+                    System.out.println("Course with idCourse: " + idCourse + " was deleted.");
+                }
+
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid input: " + ex.getMessage());
+            }
+
+        }
+
     }
 
     @Override
