@@ -1,8 +1,5 @@
 package com.example.StudentAppSpring.dao;
 
-import com.example.StudentAppSpring.entity.Course;
-import com.example.StudentAppSpring.entity.Student;
-
 public interface AppDAO {
 
     void printActions();

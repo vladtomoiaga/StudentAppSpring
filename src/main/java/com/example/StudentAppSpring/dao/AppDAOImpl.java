@@ -336,7 +336,7 @@ public class AppDAOImpl implements AppDAO{
         String firstName;
 
         System.out.println("Enter the first name which you need to find:");
-        firstName = scanner.nextLine();
+        firstName = scanner.nextLine().toLowerCase();
 
         TypedQuery<Student> query = entityManager.createNamedQuery("findByFirstName", Student.class);
         query.setParameter("name", firstName);
@@ -350,7 +350,7 @@ public class AppDAOImpl implements AppDAO{
         String lastName;
 
         System.out.println("Enter the last name which you need to find:");
-        lastName = scanner.nextLine();
+        lastName = scanner.nextLine().toLowerCase();
 
         TypedQuery<Student> query = entityManager.createNamedQuery("findByLastName", Student.class);
         query.setParameter("name", lastName);
@@ -540,7 +540,7 @@ public class AppDAOImpl implements AppDAO{
         String courseName;
 
         System.out.println("Enter the course name which you need to find:");
-        courseName = scanner.nextLine();
+        courseName = scanner.nextLine().toLowerCase();
 
         TypedQuery<Course> query = entityManager.createNamedQuery("findByCourseName", Course.class);
         query.setParameter("name", courseName);
@@ -555,7 +555,7 @@ public class AppDAOImpl implements AppDAO{
         String courseOwner;
 
         System.out.println("Enter the course owner which you need to find:");
-        courseOwner = scanner.nextLine();
+        courseOwner = scanner.nextLine().toLowerCase();
 
         TypedQuery<Course> query = entityManager.createNamedQuery("findByCourseOwner", Course.class);
         query.setParameter("owner", courseOwner);

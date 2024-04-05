@@ -2,8 +2,8 @@ package com.example.StudentAppSpring.entity;
 
 import jakarta.persistence.*;
 
-@NamedQuery(name="findByFirstName", query="SELECT student FROM Student student WHERE student.firstName = :name")
-@NamedQuery(name="findByLastName", query="SELECT student FROM Student student WHERE student.lastName = :name")
+@NamedQuery(name="findByFirstName", query="SELECT student FROM Student student WHERE LOWER (student.firstName) = :name")
+@NamedQuery(name="findByLastName", query="SELECT student FROM Student student WHERE LOWER (student.lastName) = :name")
 @Entity
 @Table(name = "student")
 public class Student {
