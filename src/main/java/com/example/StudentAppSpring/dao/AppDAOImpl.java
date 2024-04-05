@@ -19,15 +19,6 @@ public class AppDAOImpl implements AppDAO{
 
     private EntityManager entityManager;
 
-    int idCourse;
-    String courseName;
-    String courseOwner;
-    int courseRoom;
-
-
-//    public AppDAOImpl() {
-//    }
-
     @Autowired
     public AppDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
