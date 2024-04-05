@@ -341,7 +341,14 @@ public class AppDAOImpl implements AppDAO{
         TypedQuery<Student> query = entityManager.createNamedQuery("findByFirstName", Student.class);
         query.setParameter("name", firstName);
         List<Student> results = query.getResultList();
-        System.out.println(results);
+
+        if (results.isEmpty()) {
+            System.out.println("Student with first name " + firstName + " does not exist.");
+
+        } else {
+            System.out.println(results);
+        }
+
     }
 
     @Override
@@ -355,7 +362,14 @@ public class AppDAOImpl implements AppDAO{
         TypedQuery<Student> query = entityManager.createNamedQuery("findByLastName", Student.class);
         query.setParameter("name", lastName);
         List<Student> results = query.getResultList();
-        System.out.println(results);
+
+        if (results.isEmpty()) {
+            System.out.println("Student with last name " + lastName + " does not exist.");
+
+        } else {
+            System.out.println(results);
+        }
+
     }
 
     @Override
@@ -545,7 +559,13 @@ public class AppDAOImpl implements AppDAO{
         TypedQuery<Course> query = entityManager.createNamedQuery("findByCourseName", Course.class);
         query.setParameter("name", courseName);
         List<Course> results = query.getResultList();
-        System.out.println(results);
+
+        if (results.isEmpty()) {
+            System.out.println("Course with course name " + courseName + " does not exist.");
+
+        } else {
+            System.out.println(results);
+        }
 
     }
 
@@ -560,7 +580,13 @@ public class AppDAOImpl implements AppDAO{
         TypedQuery<Course> query = entityManager.createNamedQuery("findByCourseOwner", Course.class);
         query.setParameter("owner", courseOwner);
         List<Course> results = query.getResultList();
-        System.out.println(results);
+
+        if (results.isEmpty()) {
+            System.out.println("Course with course owner " + courseOwner + " does not exist.");
+
+        } else {
+            System.out.println(results);
+        }
 
     }
 
@@ -583,7 +609,13 @@ public class AppDAOImpl implements AppDAO{
                 TypedQuery<Course> query = entityManager.createNamedQuery("findByCourseRoom", Course.class);
                 query.setParameter("room", courseRoom);
                 List<Course> results = query.getResultList();
-                System.out.println(results);
+
+                if (results.isEmpty()) {
+                    System.out.println("Course with course room " + courseRoom + " does not exist.");
+
+                } else {
+                    System.out.println(results);
+                }
 
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input: " + ex.getMessage());
