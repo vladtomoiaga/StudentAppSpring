@@ -10,15 +10,15 @@ public interface AppDAO {
     void insertStudent();
     void updateStudent();
     void deleteStudent();
-    Student findStudentByID();
-    Student findStudentByFirstName();
-    Student findStudentByLastName();
+    void findStudentByID();
+    void findStudentByFirstName();
+    void findStudentByLastName();
     void insertCourse();
     void updateCourse();
     void deleteCourse();
-    Object findCourseByID();
-    Course findCourseByName();
-    Course findCourseByOwner();
-    Course findCourseByRoom();
+    void findCourseByID();
+    void findCourseByName();
+    void findCourseByOwner();
+    void findCourseByRoom();
 
 }

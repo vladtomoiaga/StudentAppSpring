@@ -3,10 +3,12 @@ package com.example.StudentAppSpring.dao;
 import com.example.StudentAppSpring.entity.Course;
 import com.example.StudentAppSpring.entity.Student;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Repository
@@ -135,6 +137,7 @@ public class AppDAOImpl implements AppDAO{
                 System.out.println("Error when typing the action: " + e.getMessage());
                 flag = false;
             }
+
         }
 
     }
@@ -189,6 +192,7 @@ public class AppDAOImpl implements AppDAO{
             }
 
         }
+
     }
 
     @Override
@@ -203,7 +207,7 @@ public class AppDAOImpl implements AppDAO{
         String idCourseString;
         int favoriteIDCourse;
 
-        Student student = new Student();
+        Student student;
 
         System.out.println("Enter the idstudent which you need to update:");
 
@@ -262,6 +266,7 @@ public class AppDAOImpl implements AppDAO{
             }
 
         }
+
     }
 
     @Override
@@ -271,7 +276,7 @@ public class AppDAOImpl implements AppDAO{
         int idStudent;
         String idStudentString;
 
-        Student student = new Student();
+        Student student;
 
         System.out.println("Enter the idstudent which you need to delete:");
 
@@ -294,19 +299,19 @@ public class AppDAOImpl implements AppDAO{
 
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input: " + ex.getMessage());
-
             }
+
         }
 
     }
 
     @Override
-    public Student findStudentByID() {
+    public void findStudentByID() { //void
 
         int idStudent;
         String idStudentString;
 
-        Student student = new Student();
+        Student student;
 
         System.out.println("Enter the idstudent which you need to find:");
 
@@ -323,43 +328,43 @@ public class AppDAOImpl implements AppDAO{
                     System.out.println("Student with idstudent " + idStudent + " does not exist.");
 
                 } else {
-                    return entityManager.find(Student.class, student);
+                    System.out.println(student);
                 }
-
-                System.out.println(student);
 
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input: " + ex.getMessage());
-                return null;
             }
 
         }
-        return null;
 
     }
 
     @Override
-    public Student findStudentByFirstName() {
+    public void findStudentByFirstName() {
 
         String firstName;
 
-        Student student = new Student();
-
         System.out.println("Enter the first name which you need to find:");
-        firstName = scanner.nextLine().toLowerCase();
-        return entityManager.find(Student.class, firstName);
+        firstName = scanner.nextLine();
+
+        TypedQuery<Student> query = entityManager.createNamedQuery("findByFirstName", Student.class);
+        query.setParameter("name", firstName);
+        List<Student> results = query.getResultList();
+        System.out.println(results);
     }
 
     @Override
-    public Student findStudentByLastName() {
+    public void findStudentByLastName() {
 
         String lastName;
 
-        Student student = new Student();
-
         System.out.println("Enter the last name which you need to find:");
-        lastName = scanner.nextLine().toLowerCase();
-        return entityManager.find(Student.class, lastName);
+        lastName = scanner.nextLine();
+
+        TypedQuery<Student> query = entityManager.createNamedQuery("findByLastName", Student.class);
+        query.setParameter("name", lastName);
+        List<Student> results = query.getResultList();
+        System.out.println(results);
     }
 
     @Override
@@ -401,6 +406,7 @@ public class AppDAOImpl implements AppDAO{
             }
 
         }
+
     }
 
     @Override
@@ -505,51 +511,95 @@ public class AppDAOImpl implements AppDAO{
     }
 
     @Override
-    public Course findCourseByID() {
+    public void findCourseByID() {
+
+        int idCourse;
+        String idCourseString;
+
+        Course course;
 
         System.out.println("Enter the idcourse which you need to find:");
 
         // Verify if the user type from console a String and then convert to an Int
         if (scanner.hasNextLine()) {
-            String idCourseString = scanner.nextLine();
+            idCourseString = scanner.nextLine();
 
             try {
                 // Convert the String into an Int
                 idCourse = Integer.parseInt(idCourseString);
+                course = entityManager.find(Course.class, idCourse);
 
-                return entityManager.find(Course.class, idCourse);
+                if (course == null) {
+                    System.out.println("Course with idcourse " + idCourse + " does not exist.");
+
+                } else {
+                    System.out.println(course);
+                }
+
+            } catch (NumberFormatException ex) {
+                System.out.println("Invalid input: " + ex.getMessage());
+            }
+        }
+
+    }
+
+    @Override
+    public void findCourseByName() {
+
+        String courseName;
+
+        System.out.println("Enter the course name which you need to find:");
+        courseName = scanner.nextLine();
+
+        TypedQuery<Course> query = entityManager.createNamedQuery("findByCourseName", Course.class);
+        query.setParameter("name", courseName);
+        List<Course> results = query.getResultList();
+        System.out.println(results);
+
+    }
+
+    @Override
+    public void findCourseByOwner() {
+
+        String courseOwner;
+
+        System.out.println("Enter the course owner which you need to find:");
+        courseOwner = scanner.nextLine();
+
+        TypedQuery<Course> query = entityManager.createNamedQuery("findByCourseOwner", Course.class);
+        query.setParameter("owner", courseOwner);
+        List<Course> results = query.getResultList();
+        System.out.println(results);
+
+    }
+
+    @Override
+    public void findCourseByRoom() {
+
+        int courseRoom;
+        String courseRoomString;
+
+        System.out.println("Enter the course room which you need to find:");
+
+        // Verify if the user type from console a number
+        if (scanner.hasNextLine()) {
+            courseRoomString = scanner.nextLine();
+
+            try {
+                // Convert the String into an Int
+                courseRoom = Integer.parseInt(courseRoomString);
+
+                TypedQuery<Course> query = entityManager.createNamedQuery("findByCourseRoom", Course.class);
+                query.setParameter("room", courseRoom);
+                List<Course> results = query.getResultList();
+                System.out.println(results);
 
             } catch (NumberFormatException ex) {
                 System.out.println("Invalid input: " + ex.getMessage());
             }
 
-        } else {
-            return null;
         }
-        return null;
+
     }
 
-    @Override
-    public Course findCourseByName() {
-
-        System.out.println("Enter the course name which you need to find:");
-        courseName = scanner.nextLine().toLowerCase();
-        return entityManager.find(Course.class, courseName);
-    }
-
-    @Override
-    public Course findCourseByOwner() {
-
-        System.out.println("Enter the course owner which you need to find:");
-        courseOwner = scanner.nextLine().toLowerCase();
-        return entityManager.find(Course.class, courseOwner);
-    }
-
-    @Override
-    public Course findCourseByRoom() {
-
-        System.out.println("Enter the course room which you need to find:");
-        courseRoom = scanner.nextInt();
-        return entityManager.find(Course.class, courseRoom);
-    }
 }

@@ -2,6 +2,8 @@ package com.example.StudentAppSpring.entity;
 
 import jakarta.persistence.*;
 
+@NamedQuery(name="findByFirstName", query="SELECT student FROM Student student WHERE student.firstName = :name")
+@NamedQuery(name="findByLastName", query="SELECT student FROM Student student WHERE student.lastName = :name")
 @Entity
 @Table(name = "student")
 public class Student {
@@ -17,7 +19,7 @@ public class Student {
     @Column(name = "last_name")
     private String lastName;
 
-    @ManyToOne(fetch = FetchType.LAZY/*cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}*/)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "favorite_course", referencedColumnName = "idcourse")
     private Course favoriteCourse;
 

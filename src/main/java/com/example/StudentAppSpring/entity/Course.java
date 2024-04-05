@@ -5,6 +5,9 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQuery(name="findByCourseName", query="SELECT course FROM Course course WHERE course.courseName = :name")
+@NamedQuery(name="findByCourseOwner", query="SELECT course FROM Course course WHERE course.courseOwner = :owner")
+@NamedQuery(name="findByCourseRoom", query="SELECT course FROM Course course WHERE course.courseRoom = :room")
 @Entity
 @Table(name = "course")
 public class Course {
@@ -78,7 +81,6 @@ public class Course {
                 ", courseName='" + courseName + '\'' +
                 ", courseOwner='" + courseOwner + '\'' +
                 ", courseRoom=" + courseRoom +
-                ", students=" + students +
                 '}';
     }
 }
